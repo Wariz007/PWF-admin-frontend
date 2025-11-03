@@ -1,0 +1,29 @@
+@import '../../styles/config';
+    
+
+.navbar {
+    background-color: $rust-brown;
+    padding-inline: 30px;
+    padding-block: 10px;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .logo {
+        cursor: pointer;
+    }
+    .burger-menu {
+        cursor: pointer;
+    }
+
+    .tags-container {
+        display: none;
+
+        .btns {
+            border: none;
+            background-color: transparent;
+        }
+    }
+
+}
