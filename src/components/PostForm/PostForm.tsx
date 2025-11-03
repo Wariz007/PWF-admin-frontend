@@ -2,7 +2,6 @@ import { useState } from "react";
 
 function PostForm() {
   const [formData, setFormData] = useState({
-    id: "",       // added id here
     title: "",
     tag: "",
     date: "",
@@ -18,7 +17,7 @@ function PostForm() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/api/posts", {
+      const res = await fetch("http://localhost:5000/api/writings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -27,7 +26,7 @@ function PostForm() {
       if (!res.ok) throw new Error("Failed to post data");
 
       alert("Post submitted successfully!");
-      setFormData({ id: "", title: "", tag: "", date: "", writing: "" });
+      setFormData({ title: "", tag: "", date: "", writing: "" });
     } catch (err) {
       console.error(err);
       alert("Something went wrong while submitting your post.");
@@ -36,15 +35,6 @@ function PostForm() {
 
   return (
     <form className="post-form" onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="id"
-        placeholder="ID"
-        value={formData.id}
-        onChange={handleChange}
-        required
-        className="id"
-      />
       <input
         type="text"
         name="title"
