@@ -2,39 +2,70 @@ import { useState } from "react";
 
 function PostForm() {
   const [formData, setFormData] = useState({
+    id: "",
     title: "",
     tag: "",
     date: "",
     writing: "",
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (name === "date") {
+      const [year, month, day] = value.split("-");
+      const shortYear = year.slice(2); // e.g., 2025 → 25
+      const formatted = `${day}-${month}-${shortYear}`;
+      setFormData((prev) => ({ ...prev, date: formatted }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+  }
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) setImageFile(file);
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
+    const data = new FormData();
+    data.append("id", formData.id);
+    data.append("title", formData.title);
+    data.append("tag", formData.tag);
+    data.append("date", formData.date);
+    data.append("writing", formData.writing);
+    if (imageFile) data.append("image", imageFile);
+
     try {
       const res = await fetch("http://localhost:5000/api/writings", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: data,
       });
 
       if (!res.ok) throw new Error("Failed to post data");
 
-      alert("Post submitted successfully!");
-      setFormData({ title: "", tag: "", date: "", writing: "" });
+      alert("✅ Post submitted successfully!");
+      setFormData({ id: "", title: "", tag: "", date: "", writing: "" });
+      setImageFile(null);
     } catch (err) {
       console.error(err);
-      alert("Something went wrong while submitting your post.");
+      alert("❌ Something went wrong while submitting your post.");
     }
   }
 
   return (
     <form className="post-form" onSubmit={handleSubmit}>
+      <input
+        type="number"
+        name="id"
+        placeholder="ID"
+        value={formData.id}
+        onChange={handleChange}
+        required
+      />
       <input
         type="text"
         name="title"
@@ -55,9 +86,14 @@ function PostForm() {
       <input
         type="date"
         name="date"
-        value={formData.date}
         onChange={handleChange}
         required
+      />
+      <input
+        type="file"
+        name="image"
+        accept="image/*"
+        onChange={handleFileChange}
       />
       <textarea
         name="writing"
