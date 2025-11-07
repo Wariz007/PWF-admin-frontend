@@ -31,6 +31,12 @@ function PostForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
+    const token = localStorage.getItem("jwt");
+    if (!token) {
+      alert("⚠️ Please log in again. Your session expired.");
+      return;
+    }
+
     const data = new FormData();
     data.append("id", formData.id);
     data.append("title", formData.title);
@@ -40,12 +46,18 @@ function PostForm() {
     if (imageFile) data.append("image", imageFile);
 
     try {
-      const res = await fetch("http://localhost:5000/api/writings", {
+      const res = await fetch("http://localhost:5000/api/admin/writings", {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: data,
       });
 
-      if (!res.ok) throw new Error("Failed to post data");
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || "Failed to post data");
+      }
 
       alert("✅ Post submitted successfully!");
       setFormData({ id: "", title: "", tag: "", date: "", writing: "" });
@@ -83,18 +95,8 @@ function PostForm() {
         onChange={handleChange}
         required
       />
-      <input
-        type="date"
-        name="date"
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="file"
-        name="image"
-        accept="image/*"
-        onChange={handleFileChange}
-      />
+      <input type="date" name="date" onChange={handleChange} required />
+      <input type="file" name="image" accept="image/*" onChange={handleFileChange} />
       <textarea
         name="writing"
         placeholder="Write your post..."

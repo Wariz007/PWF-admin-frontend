@@ -1,18 +1,15 @@
 import Navbar from "./components/Navbar/Navbar";
-import PostForm from "./components/PostForm/PostForm";
+import Admin from "./components/Admin/Admin"; // ✅ import Admin
 
 function Root() {
-
   return (
     <div>
       <Navbar />
-
       <div className="content-container">
-        <h1>Admin Portal</h1>
-        <PostForm />
+        <Admin /> {/* ✅ this handles login + PostForm */}
       </div>
     </div>
-  )
+  );
 }
 
-export default Root
+export default Root;
