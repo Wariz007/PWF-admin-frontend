@@ -10,7 +10,7 @@ function Login({ onLoginSuccess }: { onLoginSuccess: (token: string) => void }) 
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/login", {
+      const res = await fetch("http://13.61.21.78:5000/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
