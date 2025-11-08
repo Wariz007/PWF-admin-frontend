@@ -40,6 +40,7 @@ function Login({ onLoginSuccess }: { onLoginSuccess: (token: string) => void }) 
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         required
+        className="inputs"
       />
 
       <input
@@ -48,6 +49,7 @@ function Login({ onLoginSuccess }: { onLoginSuccess: (token: string) => void }) 
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
+        className="inputs"
       />
 
       <button type="submit">Login</button>
