@@ -46,7 +46,7 @@ function PostForm() {
     if (imageFile) data.append("image", imageFile);
 
     try {
-      const res = await fetch("http://localhost:5000/api/admin/writings", {
+      const res = await fetch("https://olusanyaolabodeabdulwariz.com/api/admin/writings", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
