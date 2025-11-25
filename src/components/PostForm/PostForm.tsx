@@ -46,7 +46,7 @@ function PostForm() {
     if (imageFile) data.append("image", imageFile);
 
     try {
-      const res = await fetch('http://localhost:5000/api/writings', {
+      const res = await fetch("https://pwf-backend-code-production.up.railway.app/api/admin/writings", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
