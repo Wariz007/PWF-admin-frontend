@@ -1,16 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Login from "../Login/Login";
 import PostForm from "../PostForm/PostForm";
 
 function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (token) setIsAuthenticated(true);
-  }, []);
-
   function handleLoginSuccess(token: string) {
+    // You can store the token for API use,
+    // but it will NOT auto-authenticate on refresh.
     localStorage.setItem("jwt", token);
     setIsAuthenticated(true);
   }
